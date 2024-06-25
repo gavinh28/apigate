@@ -9,6 +9,8 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application
@@ -27,6 +29,8 @@ $app = new Laravel\Lumen\Application(
 $app->withFacades();
 
 $app->withEloquent();
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -80,8 +84,18 @@ $app->configure('auth');
 // ]);
 
 $app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class,
+    // 'auth' => App\Http\Middleware\Authenticate::class,
+    // App\Http\Middleware\Authenticate::class,
+    // 'ensurePost' => App\Http\Middleware\EnsurePostRequest::class,
+
 ]);
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class
+]);
+
+//$app->middleware([
+  //  App\Http\Middleware\HttpsProtocol::class
+//]);
 
 /*
 |--------------------------------------------------------------------------
@@ -97,7 +111,7 @@ $app->routeMiddleware([
 // $app->register(App\Providers\AppServiceProvider::class);
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
@@ -116,6 +130,8 @@ $app->router->group([
 ], function ($router) {
     require __DIR__ . '/../routes/web.php';
 });
+
+
 
 
 

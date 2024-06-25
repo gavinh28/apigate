@@ -7,13 +7,9 @@ use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
     protected $commands = [
-        //
+        'App\Console\Commands\UpdateExpiredVA',
+        'App\Console\Commands\UpdateExpiredToken',
     ];
 
     /**
@@ -22,8 +18,17 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
+
     protected function schedule(Schedule $schedule)
     {
-        //
+        $schedule->command('command:expiredva')->everyMinute();
+        $schedule->command('command:expiredtoken')->everyMinute();
+    }
+
+    protected function commands()
+    {
+        $this->load(__DIR__ . '/Commands');
+
+        require base_path('routes/console.php');
     }
 }
